@@ -1,3 +1,4 @@
+var db = require('../config/db_config.js');
 var Product = require('./productModel.js');
 var Q = require('q');  // a library for promises
 var util = require('../config/utils.js');
@@ -64,3 +65,5 @@ module.exports = {
   }
 
 };
+
+
