@@ -32,13 +32,18 @@ var Tag = orm.define('Tag', {
   tagName: Sequelize.STRING(100)
 });
 
-// var Product_Tag = orm.define('Product_Tag', {});
+var Product_Tag = orm.define('Product_Tag', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true
+  }
+});
 
 // Join Table:
 // Creates a new model called product_tag with the equivalent
 // foreign keys ProductID and UserId. 
-// Tag.belongsToMany(Product, {through: 'Product_Tag'});
-// Product.belongsToMany(Tag, {through: 'Product_Tag'});
+Tag.belongsToMany(Product, {through: 'Product_Tag'});
+Product.belongsToMany(Tag, {through: 'Product_Tag'});
 
 ////////////////////////////////////
 ////// Sync models to the database
@@ -53,9 +58,9 @@ User.sync()
   .then(function () {
     Tag.sync();
   })
-  // .then(function () {
-  //   Product_Tag.sync()
-  // })
+  .then(function () {
+    Product_Tag.sync()
+  })
   .catch(function (error) {
     console.log('Error in database sync:' + error);
   });
@@ -67,3 +72,4 @@ User.sync()
 exports.User = User;
 exports.Product = Product;
 exports.Tag = Tag;
+exports.Orm = orm;

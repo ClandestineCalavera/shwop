@@ -14,13 +14,28 @@ describe('Database', function () {
       };
     });
 
-    beforeEach(function () {
-      // Clears all the records from Products database
-      db.Product.destroy(
-        {where: 
-          {name: ''},
-          truncate: true
-        });
+    beforeEach(function (done) {
+      console.log('Executing before protocol.');
+
+    // Disable the check for foreign keys to enable TRUCATE. Otherwise, we cannot clear b/c of constraints
+    db.Orm.query('SET FOREIGN_KEY_CHECKS = 0')
+    .then(function(){
+        return db.Orm.sync({ force: true });
+    })
+    .then(function(){
+
+        return db.Orm.query('SET FOREIGN_KEY_CHECKS = 1')
+    })
+    .then(function(){
+        console.log('Database synchronised.');
+        done();
+    })
+    .catch(function(error) {
+      console.log('Found an error: ', error);
+      done();
+    })
+          
+
     });
 
     describe('Create one record', function () {
@@ -72,28 +87,31 @@ describe('Database', function () {
             console.log('products created');
           })
         .then(function () {
-          db.Product.findOne({where: {name: 'book'}})
-          .then(function (product) {
-            product.destroy()
-              .then(function() {
-                console.log('Model destoryed.');
-                db.Product.findOne({where: {name: 'book'}})
-                  .then(function(product) {
-                    console.log('Result of find operation: ', product);
-                    expect(product).to.equal(null);
-                    db.Product.findOne({where: {name: 'racecar'}})
-                      .then(function(product) {
-                        console.log('Result of find operation: ', product.dataValues.name);
-                        expect(product.dataValues.name).to.equal('racecar');
-                        done();
-                      })
-                  })
-              })
-          });
-        });
-
+          return db.Product.findOne({where: {name: 'book'}})
+        })
+        .then(function (product) {
+          return product.destroy()
+        })
+        .then(function() {
+          console.log('Model destoryed.');
+          return db.Product.findOne({where: {name: 'book'}})
+        })
+        .then(function(product) {
+          console.log('Result of find operation: ', product);
+          expect(product).to.equal(null);
+          return db.Product.findOne({where: {name: 'racecar'}})
+        })
+        .then(function(product) {
+          console.log('Result of find operation: ', product.dataValues.name);
+          expect(product.dataValues.name).to.equal('racecar');
+          done();
+        })
+        .catch(function(error) {
+          Console.log("Found this error:  ", error);
+        })
       });
     });
+
 
     // describe('Not find a record that doesn\'t exist', function () {
     //   it('should throw error when looking for non-existant record', function (done) {
@@ -111,7 +129,7 @@ describe('Database', function () {
     //         done();
     //       });
     //     };
-        
+
     // //     expect(findNonExistantProduct()).to.throw(Error);
     // //   });
     // // });
