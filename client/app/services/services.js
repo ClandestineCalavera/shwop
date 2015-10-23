@@ -177,8 +177,8 @@ angular.module('shwop.services', [])
 
       $http.post(serverUrl, fileBlob, {
         headers: {
-          'X-Parse-Application-Id': '',
-          'X-Parse-REST-API-Key': '',
+          'X-Parse-Application-Id': process.env.ParseAppId,
+          'X-Parse-REST-API-Key': process.env.ParseRestKey,
           'Content-Type': file.type
         }
       }).then(function(resp) {
