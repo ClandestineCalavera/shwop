@@ -23,8 +23,8 @@ angular.module('shwop.sell', [])
 
   // Adds tag to array of tags associated with a product.
   $scope.addTag = function() {
-    addToArray($scope.product.tag, $scope.product.tags);
-    $scope.product.tag = '';
+    addToArray($scope.data.tag, $scope.product.tags);
+    $scope.data.tag = '';
   };
 
   // Calls factory method that adds photo to parse.com and returns photo url.
@@ -37,7 +37,24 @@ angular.module('shwop.sell', [])
 
   // Calls factory method that adds a product to the database.
   $scope.addProduct = function () {
-    Products.addProduct($scope.product)
+    console.log($scope.product);
+
+    // Temporary fix: Pushing the categories tag onto tags array
+    // This may be utilized later, once we figure out search
+    $scope.product.tags.push($scope.product.category);
+
+    var request = {
+      "user": {"email": "michael@jordan.com"},
+      "product": {
+                  "name": $scope.product.name,
+                  "photoURL": $scope.product.photoURL,
+                  "price": $scope.product.price
+      },
+      "tags": $scope.product.tags
+    }
+
+
+    Products.addProduct(request)
     .then(function (res) {
       $location.path('/products');
     })

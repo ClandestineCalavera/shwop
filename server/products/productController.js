@@ -41,11 +41,16 @@ module.exports = {
 
   // adds a new product to the database
   newProduct: function (req, res, next) {
+
     var user = req.body.user;
     var product = req.body.product;
     var tags = req.body.tags;
 
-    res.send(helpers.createProduct(user, product, tags));
+
+    helpers.createProduct(user, product, tags, function(result) {
+        res.send(result);
+    });
+
   },
   // update the product
   updateProduct: function (req, res, next) {

@@ -28,7 +28,7 @@ var createUser = function (user) {
 };
 
 // User format is Object, Product format is Object, Tags format is Array
-var createProduct = function (user, product, tags) {
+var createProduct = function (user, product, tags, callback) {
   // FindOne with user.email
   // findOrCreate tags
   // Create product
@@ -60,12 +60,14 @@ var createProduct = function (user, product, tags) {
   .then(function (results) {
     return productModel.setUser(userModel);
   })
-  .then(function () {
-    return console.log('Success! Create a user with products and tags.');
+  .then(function (result) {
+    console.log('Success! Create a user with products and tags.')
+    callback(result);
   })
   .catch(function (error) {
-    return console.log('Error in createProduct function: ', error);
-  });
+    console.log('Error in createProduct function: ', error);
+    callback(error);
+  })
 };
 
 // var createProductAndAssociateToUser = function(userEmail, productName) {
