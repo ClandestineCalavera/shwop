@@ -1,12 +1,16 @@
 angular.module('shwop.sell', [])
 
-.controller('SellController', ['$http', '$scope', '$location', 'Products', 'Photos', function ($http, $scope, $location, Products, Photos) {
+.controller('SellController', ['$http', '$scope', '$location', 'Products', 'Photos', 'Auth', function ($http, $scope, $location, Products, Photos, Auth) {
   $scope.product = {};
   $scope.product.tags = [];
   $scope.product.photoURL = '';
   $scope.product.category = null;
 
   $scope.categories = Products.categories
+
+  $scope.signout = function() {
+    Auth.signout();
+  }
 
   // Helper function that adds an item to an array if the item is not already
   // in the array and the item is not blank. 

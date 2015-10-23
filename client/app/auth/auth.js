@@ -12,6 +12,7 @@ angular.module('shwop.auth', [])
         $location.path('/products');
       })
       .catch(function (error) {
+        alert('user does not exist, please sign up!');
         console.error(error);
       });
   };

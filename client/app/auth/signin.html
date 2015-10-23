@@ -1,9 +1,37 @@
-<div id='signin'>
-  <h1>signin</h1>
-  <form name="signinForm" ng-submit='signin()'>
-    <input type='text'ng-model='user.username'>
-    <input type="password" ng-model='user.password'>
-    <button>signin</button>
-  </form>
-  <a href="#/signup">Don't have an account? <strong>Signup</strong> ...</a>
+<nav class='navbar navbar-app navbar-relative-top'>
+  <div class='btn-group justified'>
+    <a href='#/signup' class='btn btn-navbar active'>No Account? Sign Up!</a>
+  </div>
+</nav>
+
+<div class='container'>
+  <div class='row'>
+    <form class='form-horizontal col-md-5 col-centered' ng-submit='signin()'>
+      <div class='modal-body'>
+        <div class='form-group sign-up-field'>
+          <label class='col-sm-4 control-label'>Email</label>
+          <div class='col-sm-7'>
+            <input ng-model='user.email' type='email' class='form-control' placeholder='Enter your email here' required>
+          </div>
+        </div>
+
+        <div class='form-group sign-up-field'>
+          <label class='col-sm-4 control-label signin-label'>Password</label>
+          <div class='col-sm-7'>
+            <input ng-model='user.password' type='text' class='form-control' placeholder='Enter your password here' required>
+          </div>
+        </div>
+
+      </div>
+
+      <div class='modal-footer'>
+        <div class='form-group'>
+          <div class='col-sm-offset-5 col-sm-6'>
+            <button type='button' ng-click='cancel()' class='btn btn-warning'>Cancel</button>
+            <button type='submit' class='btn btn-default'>Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

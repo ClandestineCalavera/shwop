@@ -25,17 +25,20 @@ angular.module('shwop', [
     .when('/products', {
       templateUrl: 'app/products/products.html',
       controller: 'ProductController',
-      css: '../styles/style.css'
+      css: '../styles/style.css',
+      authenticate: true
     })
     .when('/sell', {
       templateUrl: 'app/sell/sell.html',
       controller: 'SellController',
-      css: '../styles/style.css'
+      css: '../styles/style.css',
+      authenticate: true
     })
     .when('/bid', {
       templateUrl: 'app/bid/bid.html',
       controller: 'BidController',
-      css: '../styles/style.css'
+      css: '../styles/style.css',
+      authenticate: true
     });
     // .when('/products:items', {        // TODO: Syntax for filtered items
     //   templateUrl: 'app/products/products.html',
