@@ -2,11 +2,21 @@ var Sequelize = require('sequelize');
 var bcrypt   = require('bcrypt-nodejs');
 var Q        = require('q');
 var SALT_WORK_FACTOR = 10;
-// Arguments are: [Database name], [Username], [Password]
-var orm = new Sequelize('shwopDB', 'root', '', {
-  dialect: 'mysql',
-  logging: false
-});
+
+if (process.env.DATABASE_URL) {
+  console.log("DATABASE_URL!");
+  // Arguments are: [Database name], [Username], [Password]
+  var orm = new Sequelize(process.env.DATABASE_URL, dbUserName, dbPassword, {
+    dialect: 'mysql',
+    logging: false
+  });
+} else {
+  // Arguments are: [Database name], [Username], [Password]
+  var orm = new Sequelize('shwopDB', 'root', '', {
+    dialect: 'mysql',
+    logging: false
+  });
+}
 
 
 ////////////////////////////////////
