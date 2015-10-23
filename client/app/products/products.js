@@ -1,7 +1,11 @@
 angular.module('shwop.products', [])
 
-.controller('ProductController', ['$scope', 'Products', function ($scope, Products) {
+.controller('ProductController', ['$scope', 'Products', 'Auth', function ($scope, Products, Auth) {
   $scope.categories = Products.categories
+
+  $scope.signout = function() {
+    Auth.signout();
+  };
   
   // Determines what happens when a user swipes a product photo left or right.
   $scope.swiped = function(direction) {

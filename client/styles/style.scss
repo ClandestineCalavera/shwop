@@ -11,6 +11,16 @@ li {
   }
 }
 
+.sign-up-field {
+  .control-label{
+    text-align: right !important;
+  }
+  .col-sm-7 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
+
 .input-box {
   margin: 5px auto;
 }
