@@ -1,36 +1,36 @@
 
 
-describe('shwop.Services', function() {
+// describe('shwop.Services', function() {
 
-  var Products;
+//   var Products;
 
-  beforeEach(angular.mock.module('shwop'));
-  beforeEach(inject(function($injector) {
-    Products = $injector.get('Products');
-  }));
+//   beforeEach(angular.mock.module('shwop'));
+//   beforeEach(inject(function($injector) {
+//     Products = $injector.get('Products');
+//   }));
 
-  beforeEach(angular.mock.inject(function($httpBackend) {
-    backend = $httpBackend;
-    backend.expect('GET','/api/products').respond([
-      {"name": " Bob", "age": 18}
-    ]);
-  }));
+//   beforeEach(angular.mock.inject(function($httpBackend) {
+//     backend = $httpBackend;
+//     backend.expect('GET','/api/products').respond([
+//       {"name": " Bob", "age": 18}
+//     ]);
+//   }));
 
-  it('Makes an AJAX request', function(){
-    Products.getAllProducts();
-    backend.verifyNoOutstandingExpectation();
-  });
+//   it('Makes an AJAX request', function(){
+//     Products.getAllProducts();
+//     backend.verifyNoOutstandingExpectation();
+//   });
 
-  it('Should expect 0 to equal 0', function() {
-    Products.setCurrentProduct('hot dog');
-    expect(Products.getCurrentProduct()).to.equal('hot dog');
-  });
+//   it('Should expect 0 to equal 0', function() {
+//     Products.setCurrentProduct('hot dog');
+//     expect(Products.getCurrentProduct()).to.equal('hot dog');
+//   });
 
-  it('Should expect 1 to equal 1', function() {
-    expect(1).to.equal(1);
-  });
+//   it('Should expect 1 to equal 1', function() {
+//     expect(1).to.equal(1);
+//   });
 
-});
+// });
 
 
 

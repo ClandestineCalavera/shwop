@@ -8,25 +8,25 @@ var users = [
    lastName: 'Jordan',
    phoneNumber: '(232)323-1995',
    email: 'michael@jordan.com',
-   // password: 'michael'
+   password: 'michael'
  },
  { firstName: 'Bill',
    lastName: 'Gates',
    phoneNumber: '(101)111-1001',
    email: 'bill@microsoft.com',
-   // password: 'bill'
+   password: 'bill'
  },
  { firstName: 'Donkey',
    lastName: 'Kong',
    phoneNumber: '(808)888-8181',
    email: 'donkey@nintendo.com',
-   // password: 'donkey'
+   password: 'donkey'
  },
  { firstName: 'Ray',
    lastName: 'Ban',
    phoneNumber: '(777)777-7777',
    email: 'me@rayban.com',
-   // password: 'ray'
+   password: 'ray'
  }
 ];
 
@@ -103,7 +103,8 @@ var newUser = {
       firstName: 'Michael',
       lastName: 'Jordan',
       phoneNumber: '(232)323-1995',
-      email: 'michael@jordan.com'
+      email: 'michael@jordan.com',
+      password: 'bulls4ever'
     };
 
 var product;
