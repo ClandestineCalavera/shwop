@@ -6,13 +6,13 @@ var SALT_WORK_FACTOR = 10;
 if (process.env.DATABASE_URL) {
   var orm = new Sequelize(process.env.DATABASE_URL, {  // Username & password are part of URL so separate variables are not needed here.
     dialect: 'mysql',
-    logging: false
+    logging: true
   });
 } else {
   // Arguments are: [Database name], [Username], [Password]
   var orm = new Sequelize('shwopDB', 'root', '', {
     dialect: 'mysql',
-    logging: false
+    logging: true
   });
 }
 

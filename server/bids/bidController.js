@@ -1,6 +1,5 @@
 var db = require('../db/db_config.js');
 var util = require('../config/utils.js');
-var db = require('../db/db_config.js');
 var jwt  = require('jwt-simple');
 if(!process.env.TwilioSid) {
   var locally = require('../../sneakyLocal.js');
@@ -14,7 +13,6 @@ module.exports = {
     var product;
     var seller;
     var bidder = jwt.decode(req.body.token, 'secret');
-    console.log(req.body);
 
     db.Product.findOne({ where: { id: req.body.productId } })
     .then(function (foundProduct) {
@@ -22,6 +20,9 @@ module.exports = {
       return db.User.findOne({ where: { id: foundProduct.get('UserId') } });
     })
     .then(function(foundSeller){
+      if(foundSeller === null) {
+        res.status(400).send('Error creating new bid in database: We could not locate a seller for the product');
+      }
       seller = foundSeller;
       return db.User.findOne({ where: { id: bidder.id } });
     })
@@ -44,11 +45,15 @@ module.exports = {
           // A sample response from sending an SMS message is here (click "JSON" to see how the data appears in JavaScript):
           // http://www.twilio.com/docs/api/rest/sending-sms#example-1
 
-          console.log(responseData.from); // outputs "+18327695630"
-          console.log(responseData.body); // outputs the actual message text
-          res.send(responseData);
+          console.log('Response data:  ', responseData.from); // outputs "+18327695630"
+          console.log('Response responseData.body: ', responseData.body); // outputs the actual message text
+          res.status(400).send("Error creating twilio request: ", err);
         }
+        res.status(200).send("Successfully sent message. Response data:", responseData);
       });
-    });
+    })
+      .catch(function(error) {
+        res.status(400).send('Error creating new bid in database: ', error);
+      })
   }
 };

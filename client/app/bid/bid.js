@@ -5,17 +5,19 @@ angular.module('shwop.bid', [])
   $scope.bid = null;
   $scope.sendBid = function () {
 
-    console.log('the token is ', $window.localStorage.getItem('com.shwop'));
-    console.log($window.localStorage.getItem('com.shwop'), $scope.product.id, $scope.bid);
-    Products.sendBid($window.localStorage.getItem('com.shwop'), $scope.product.id, $scope.bid);
-    $location.path('/products');
+    Products.sendBid($window.localStorage.getItem('com.shwop'), $scope.product.id, $scope.bid)
+      .then(function (results) {
+        console.log("Results in bid.js: ", results);
+        $location.path('/products');
+      })
+      .catch(function (error) {
+        console.log("Error in creating a bid:  ", error);
+      })
   };
 
   $scope.cancel = function () {
     Products.products();
   };
-
-  console.log($scope.product);
 
   $scope.signout = function () {
     Auth.signout();

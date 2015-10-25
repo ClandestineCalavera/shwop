@@ -51,7 +51,6 @@ angular.module('shwop.sell', [])
     // Temporary fix: Pushing the categories tag onto tags array
     // This may be utilized later, once we figure out search
     $scope.product.tags.push($scope.product.category);
-    console.log('token is ',$window.localStorage.getItem('com.shwop'));
      var request = {
       "token": $window.localStorage.getItem('com.shwop'),
       "product": {

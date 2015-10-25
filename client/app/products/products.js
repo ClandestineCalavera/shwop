@@ -28,6 +28,7 @@ angular.module('shwop.products', [])
 
   // Calls factory method that returns all product info from DB and renders it.
   $scope.getAllProducts = function () {
+    console.log("Getting all products");
     Products.getAllProducts()
     .then(function (promise) {
       $scope.data.products = promise.data.products;
