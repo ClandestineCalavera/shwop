@@ -9,10 +9,13 @@ module.exports = {
   allProducts: function (req, res, next) {
     db.Product.findAll()
     .then(function (products) {
+      if(products === null) {
+        res.status(400).send('We could not find products in the database.');
+      }
       res.send({products: products});
     })
     .catch(function (error) {
-      next(error);
+      res.status(400).send('Error retrieving all products from database: ', error);
     });
   },
 
@@ -27,15 +30,21 @@ module.exports = {
     // Get all associated products by Category tag
     db.Tag.findOne({where: {tagName: categoryTag}})
     .then(function (tag) {
+      if(tag === null) {
+        res.status(400).send('We could not find a tag in the database.');
+      }
       return tag.getProducts();
     })
     .then(function (associatedProducts) {
-      console.log(associatedProducts);
+      if(associatedProducts === null) {
+        // Not sure if this is the correct error. Leaving in for future testing purposes. 
+        res.status(400).send('We could not find the associated tags in the database.');
+      }
       categoryProducts = associatedProducts;
       res.send({products: associatedProducts});
     })
     .catch(function (error) {
-      next(error);
+      return next(error);
     });
   },
 
@@ -44,7 +53,9 @@ module.exports = {
 
     var token = req.body.token;
     if (!token) {
-      next(new Error('No token'));
+      res.status(401).send('We could not locate the required token.');
+      // Keeping this error syntax for future reference. 
+      // next(new Error('No token'));
     } else {
       var user = jwt.decode(token, 'secret');
       db.User.findOne({where: {email: user.email}})
@@ -60,7 +71,7 @@ module.exports = {
             res.send(200);
           });
         } else {
-          res.send(401,'corrupted token');
+          res.status(401).send('Error creating new product in database: We could not locate the product in the database.');
         }
       })
       .catch(function (error) {
@@ -84,7 +95,7 @@ module.exports = {
       res.send('Update successful');
     })
     .catch(function (error) {
-      next(error);
+      res.status(400).send('Error updating the product in database: ', error);
     });
   },
 
@@ -92,12 +103,17 @@ module.exports = {
   deleteProduct: function (req, res, next) {
     db.Product.findOne({ where: { id: req.body.id } })
     .then(function (product) {
+      if(product === null) {
+        res.status(400).send('We could not find the product in the database.');
+      }
       product.destroy();
     })
     .then(function () {
-      console.log('Successfully deleted the product');
-      res.send(200);
-    });
+      res.status(200).send('Successfully deleted the product');
+    })
+    .catch(function (error) {
+      res.status(400).send('Error deleting the product in the database: ', error);
+    }) 
   }
 
 };

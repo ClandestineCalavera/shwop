@@ -12,8 +12,8 @@ angular.module('shwop.auth', [])
         $location.path('/products');
       })
       .catch(function (error) {
-        alert('user does not exist, please sign up!');
-        console.error(error);
+        alert('Error: User does not exist, please sign up!');
+        console.error("Error in signing in:  ", error);
       });
   };
 

@@ -1,5 +1,9 @@
 var productController = require('./productController.js');
 var userController = require('../users/userController.js');
+if(!process) {
+  var process = require('../../sneakyLocal.js')
+};
+
 
 module.exports = function (app) {
   // app === productRouter injected from middleware.js
