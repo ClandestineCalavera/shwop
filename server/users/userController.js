@@ -14,7 +14,7 @@ module.exports = {
     })
     .then( function (user) {
       if (!user) {
-        next(new Error('User does not exist!'));
+        res.status(400).send('We could not locate the user in the database.');
       } else {
         return user.comparePasswords(req.body.password)
         .then(function (foundUser) {
@@ -22,13 +22,13 @@ module.exports = {
             var token = jwt.encode(user, 'secret');
             res.json({token: token});
           } else {
-            return next(new Error('No user'));
+            res.status(400).send('We could not locate the user in the database.');
           }
         });
       }
     })
     .catch(function (error) {
-      next(error);
+      res.status(400).send('Error on sign in within the database: ', error);
     });
   },
 
@@ -58,7 +58,7 @@ module.exports = {
       res.json({token: token});
     })
     .catch(function (error) {
-      next(error);
+      res.status(400).send('Error on sign in within the database: ', error);
     });
   },
 

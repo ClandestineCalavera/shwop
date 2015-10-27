@@ -62,8 +62,8 @@ angular.module('shwop.sell', [])
     .then(function () {
       $location.path('/products');
     })
-    .catch(function (err) {
-      console.log(err);
+    .catch(function (error) {
+      console.log("Error in creating a bid:   ", error);
     });
   };
 }])

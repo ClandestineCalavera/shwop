@@ -2,7 +2,7 @@ var db = require('../db/db_config.js');
 var util = require('../config/utils.js');
 var jwt  = require('jwt-simple');
 if(!process.env.TwilioSid) {
-  var locally = require('../../sneakyLocal.js');
+  var locally = require('./../../sneakyLocal.js');
 }
 var client = require('twilio')(process.env.TwilioSid || locally.TwilioSid, process.env.TwilioAuthToken || locally.TwilioAuthToken);
 
@@ -59,8 +59,8 @@ module.exports = {
         }
       });
     })
-      .catch(function(error) {
-        res.status(400).send('Error creating new bid in database: ', error);
-      })
+    .catch(function(error) {
+      res.status(400).send('Error creating new bid in database: ', error);
+    })
   }
 };
