@@ -1,7 +1,7 @@
 angular.module('shwop.products', [])
 
 
-.controller('ProductController', ['$scope', 'Products', 'Auth', function ($scope, Products, Auth) {
+.controller('ProductController', ['$scope', '$rootScope', 'Products', 'Auth', function ($scope, $rootScope, Products, Auth) {
   $scope.categories = Products.categories;
 
   $scope.signout = function() {
@@ -23,6 +23,10 @@ angular.module('shwop.products', [])
       Products.bid();
     }
   };
+
+  $scope.showModal = function(){
+    $rootScope.Ui.turnOn('bidModal');
+  }
 
   // var arrowSwiper = function(e){
   //     if(e.keyCode === 37) {
@@ -107,7 +111,7 @@ angular.module('shwop.products', [])
       };
 
       this.bid = function(){
-        Products.bid();
+        $scope.showModal();
       };
 
       this.prev = function(){
