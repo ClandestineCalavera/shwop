@@ -11,6 +11,11 @@
     </div>
   </nav>
 <!-- </div> -->
+<div>
+<a href="" 
+          ui-turn-on="bidModal"
+          class="btn btn-default">Show Modal</a>
+</div>
 
 
 <div class="carousel">
@@ -23,6 +28,10 @@
       </div>
     </div>
   </div>
+</div>
+
+<div ui-content-for="modals">
+  <div ng-include="'bidModal.html'"></div>
 </div>
 
 <!-- <div class='scrollable-content'>
