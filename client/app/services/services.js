@@ -65,10 +65,30 @@ angular.module('shwop.services', [])
     });
   };
 
+  var getPhotoAPIKeys = function(){
+    return $http.get('/api/products/keys')
+      .then(function(resp) {
+        return resp.data;
+      });
+  };
+
   var deleteProduct = function (productId) {
-    return $http({
-      method: 'DELETE',
-      url: '/api/products/' + productId
+    getPhotoAPIKeys().then(function(keys) {
+      $http.delete('https://api.parse.com/1/files/chessboard.jpg', {
+        headers: {
+          'X-Parse-Application-Id': keys['X-Parse-Application-Id'],
+          'X-Parse-REST-API-Key': keys['X-Parse-REST-API-Key'],
+          'Content-Type':'image/jpeg'
+        }
+      }).then(function() {
+        return $http({
+          method: 'DELETE',
+          url: '/api/products/' + productId
+        });
+      })
+      .catch(function(error) {
+        res.status(400).send('Error deleting the product: ', error);
+      });
     });
   };
 
