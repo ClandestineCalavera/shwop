@@ -65,13 +65,6 @@ angular.module('shwop.services', [])
     });
   };
 
-  var getPhotoAPIKeys = function(){
-    return $http.get('/api/products/keys')
-      .then(function(resp) {
-        return resp.data;
-      });
-  };
-
   var deleteProduct = function (productId) {
     return $http({
       method: 'DELETE',
