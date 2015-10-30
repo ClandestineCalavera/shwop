@@ -5,6 +5,7 @@ angular.module('shwop', [
   'shwop.bid',
   'shwop.auth',
   'shwop.mystore',
+  'shwop.mybids',
   'shwop.profile',
   'mobile-angular-ui',
   'mobile-angular-ui.gestures',
@@ -51,6 +52,12 @@ angular.module('shwop', [
     .when('/mystore', {
       templateUrl: 'app/mystore/mystore.html',
       controller: 'MyStoreController',
+      css: '../styles/style.css',
+      authenticate: true
+    })
+    .when('/mybids', {
+      templateUrl: 'app/mybids/mybids.html',
+      controller: 'MyBidsController',
       css: '../styles/style.css',
       authenticate: true
     })

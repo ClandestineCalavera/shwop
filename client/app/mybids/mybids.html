@@ -1,0 +1,48 @@
+  <!-- TODO: (1) Research photo file path validation  -->
+
+<nav class='navbar navbar-app navbar-relative-top'>
+  <strong class='navbar-brand-center navbar-brand'>Shwop</strong>
+  <div class='btn-group pull-left'>
+    <div ui-toggle='uiSidebarLeft' class='btn sidebar-toggle'>
+      <i class='fa fa-bars'></i> {{ 'menuTitle' | translate }}
+    </div>
+  </div>
+  <div class='btn-group pull-right collapsible'>
+    <a ng-click='signout()' class='btn btn-navbar'>{{ 'logoutNav' | translate }}</a>
+  </div>
+</nav>
+
+<div class='scrollable-content section'>
+<h1 class='page-header'>{{ 'myBidsHeader' | translate }}</h1>
+
+  <div ng-repeat='product in data' class="panel panel-default bid-product">
+    <div class="panel-heading">
+      <div class="btn-group pull-right">
+        <a ui-turn-on='myDropdown{{product.productInfo.id}}' class='btn'>
+          <i class="fa fa-ellipsis-v"></i>
+        </a>
+        <ul 
+          ui-state="myDropdown{{product.productInfo.id}}"
+
+          class="dropdown-menu"
+          ui-outer-click="Ui.turnOff('myDropdown' + product.productInfo.id)"
+          ui-outer-click-if="Ui.active('myDropdown' + product.productInfo.id)"
+          role="menu"
+          ui-show="myDropdown{{product.productInfo.id}}"
+          ui-turn-off="myDropdown{{product.productInfo.id}}">
+
+          <li><a>{{ 'viewProduct' | translate }}</a></li>
+          <li><a>{{ 'updateBid' | translate }}</a></li>
+          <li class="divider"></li>
+          <li><a ng-click='deleteBid(product.productInfo.id); remove($index)'>{{ 'cancelBid' | translate }}</a></li>
+        </ul>
+      </div>
+      <h3 class="panel-title">{{ product.productInfo.name }}</h3>
+      
+    </div>
+    <div class="panel-body">
+       <img ng-src='{{ product.productInfo.photoURL }}' class='store-product-image'>
+    </div>
+    <h8 class="panel-title">You bid ${{ product.bidInfo.bidAmount }} on {{ product.bidInfo.createdAt | date:'mediumDate'}}</h8>
+  </div>
+</div>
