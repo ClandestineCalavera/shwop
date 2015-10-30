@@ -56,6 +56,7 @@ var createProduct = function (userModel, product, tags, callback) {
   });
 };
 
+
 var addLongAndLat = function (user) {
   if (!process.env.GoogleKey) {
     var locally = require('../../sneakyLocal.js');
@@ -86,4 +87,50 @@ var addLongAndLat = function (user) {
 exports.createProduct = createProduct;
 exports.addLongAndLat = addLongAndLat;
 
+
+
+var storeBid = function (bidAmount, product, bidder, callback) {
+
+    // find
+    db.Bid.find({where: {ProductId: product.id}})
+    .then(function (bid) {
+      // if found - update
+      if(bid) {
+        bid.updateAttributes({
+          bidAmount: bidAmount
+        })
+        .then(function (success) {
+          console.log('We just updated a user!')
+          callback(null, success);
+        })
+        .catch(function (error) {
+          console.log('We had an error in storeBid > helper.js');
+          callback(error, null);
+        })
+
+      } else if(bid === null) {
+        db.Bid.create({
+          bidAmount: bidAmount,
+          UserId: bidder.id,
+          ProductId: product.id
+        })
+        .then(function(success) {
+          console.log('We just created a new user!')
+          callback(null, success);
+        })
+        .catch(function(error) {
+          console.log('We just created a new user!')
+          callback(null, success);
+        })
+      }
+
+    }) 
+    .catch(function (error) {
+      console.log('We had an error in storeBid > helper.js - finding the Bid.');
+      callback(error, null);
+    })
+  }
+
+exports.createProduct = createProduct;
+exports.storeBid = storeBid;
 
