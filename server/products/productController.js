@@ -15,7 +15,7 @@ module.exports = {
       res.send({products: products});
     })
     .catch(function (error) {
-      res.status(400).send('Error retrieving all products from database: ', error);
+      res.status(400).send('Error retrieving all products from database: ' + error);
     });
   },
 
@@ -95,7 +95,7 @@ module.exports = {
       res.send('Update successful');
     })
     .catch(function (error) {
-      res.status(400).send('Error updating the product in database: ', error);
+      res.status(400).send('Error updating the product in database: ' + error);
     });
   },
 
@@ -119,7 +119,7 @@ module.exports = {
         res.status(200).send('Product successfully deleted.');
     })
     .catch(function (error) {
-      res.status(400).send('Error deleting the product in the database: ', error);
+      res.status(400).send('Error deleting the product in the database: ' + error);
     });
   },
 

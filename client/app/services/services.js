@@ -48,6 +48,23 @@ angular.module('shwop.services', [])
     });
   };
 
+  var getAllBids = function(token) {
+    return $http({
+      method: 'POST',
+      url: 'api/bids/allBids',
+      data: {
+        token: token
+      }
+    });
+  };
+
+  var deleteMyBid = function(bidId) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/bids/' + bidId
+    });
+  };
+
   var getProductsByTag = function (tags) {
     return $http({
           method: 'GET',
@@ -71,6 +88,22 @@ angular.module('shwop.services', [])
       url: '/api/products/' + productId
     });
   };
+
+  var getLocation = function () {
+      var watchId = navigator.geolocation.watchPosition(successCallback, 
+                                                        errorCallback,
+                                                        {enableHighAccuracy:true,timeout:60000,maximumAge:0});
+      console.log('watchId', watchId);
+
+      function successCallback(position) {
+           console.log('position', position)
+      }
+  },
+
+  var stopLocation = function () {
+    console.log(watchId);
+    clearWatch(watchId);
+  },
 
   var categories = [
     {id: '1', name: 'Antiques', translation: $translate.instant('antiques')},
@@ -120,12 +153,16 @@ angular.module('shwop.services', [])
     setCurrentProduct: setCurrentProduct,
     getCurrentProduct: getCurrentProduct,
     bid: bid,
+    getAllBids: getAllBids,
     sendBid: sendBid,
+    deleteMyBid: deleteMyBid,
     products: products,
     getProductsByTag: getProductsByTag,
     getUserProducts: getUserProducts,
     deleteProduct: deleteProduct,
-    categories: categories
+    categories: categories,
+    getLocation: getLocation,
+    stopLocation: stopLocation
   };
 
 }])

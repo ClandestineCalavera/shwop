@@ -138,4 +138,12 @@ select:invalid option {
   background-color: #007AFF;
   color: #FFF; }
 
+.bid-product {
+  height: 310px;
+  width: 250px;
+  float: left;
+  padding: 5px;
+  margin: 5px; }
+
+
 /*# sourceMappingURL=style.css.map */

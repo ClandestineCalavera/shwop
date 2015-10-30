@@ -29,7 +29,7 @@ module.exports = {
       }
     })
     .catch(function (error) {
-      res.status(400).send('Error on sign in within the database: ', error);
+      res.status(400).send('Error on sign in within the database: ' + error);
     });
   },
 
@@ -71,7 +71,7 @@ module.exports = {
       console.log('Successfully added longitude and latitude');
     })
     .catch(function (error) {
-      res.status(400).send('Error on sign in within the database: ', error);
+      res.status(400).send('Error on sign in within the database: ' + error);
     });
   },
 

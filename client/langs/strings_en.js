@@ -48,6 +48,14 @@ var enUS = {
   "updateProduct": "Update",
   "deleteProduct": "Delete",
 
+   // client>app>mybids>mybids.html
+   "myBidsHeader": "My Bids",
+   "viewProduct": "View Product",
+    "updateBid": "Update Bid",
+    "cancelBid": "Cancel Bid",
+
+
+
   //client>app>mystore>mystore.js
   "deleteProductConfirm": "Are you sure you want to delete this product?",
 

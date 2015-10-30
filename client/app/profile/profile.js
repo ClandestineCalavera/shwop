@@ -58,5 +58,13 @@ angular.module('shwop.profile', [])
     $location.path( "/products" );
   };
 
+  // $scope.getLocation = function () {
+
+  //   navigator.geolocation.getCurrentPosition(function(position) {
+  //     console.log(position.coords.latitude, position.coords.longitude);
+  // });
+
+  // }
+
   $scope.getUserInfo();
 }]);
