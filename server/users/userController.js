@@ -100,7 +100,8 @@ module.exports = {
   },
 
   userInfo: function (req, res, next) {
-    var user = jwt.decode(req.body.token, 'secret');
+    var token = req.headers['x-access-token'];
+    var user = jwt.decode(token, 'secret');
     db.User.findOne({
       where: { id: user.id }
     })
