@@ -3,39 +3,38 @@ angular.module('shwop.products', [])
 
 .controller('ProductController', ['$scope', '$rootScope', '$translate', 'Products', 'Auth', '$window', 'Users', function ($scope, $rootScope, $translate, Products, Auth, $window, Users) {
   $scope.categories = Products.categories;
+  $scope.data = {};
+  $scope.product = {};
+  $scope.product.category = null;
+  $scope.product.searchText = null;
+  var previousProductCategory = null;
+  var previousSearchText = null;
+
+  // lastCard toggle tells the DOM whether to show the Alert Card
+  $scope.lastCard = false;
+  $scope.searchSubmitted = false;
+
+  $scope.product.searchForm;
 
   $scope.signout = function() {
     Auth.signout();
   };
   
-  // Determines what happens when a user swipes a product photo left or right.
-  $scope.swiped = function(direction) {
-    // If user swipes left, the topmost photo is removed from the array, revealing
-    // the next product to the user.
-    if (direction === 'LEFT') {
-      console.log("swiped left")
-      $scope.data.products.shift();
-      
-      if ($scope.data.products.length === 0){
-        $scope.getAllProducts();
-      }
-      Products.setCurrentProduct($scope.data.products[0]);
-    } else {
-      // If user swipes right, the bid() factory method is called.
-      Products.bid();
-    }
-  };
-
   $scope.showModal = function(){
     $rootScope.Ui.turnOn('bidModal');
   }
 
-  $scope.data = {};
+  $scope.showSearchModal = function(){
+    $rootScope.Ui.turnOn('searchModal');
+  }
+
   var findingMessage = $translate.instant('findingMessage');
   $scope.data.location = findingMessage;
 
   // Calls factory method that returns all product info from DB and renders it.
   $scope.getAllProducts = function (callback) {
+    $scope.lastCard = false;    
+
     // This hacky callback is to allow the location function to be called after we get all the products
     callback = callback || function(){};
 
@@ -43,33 +42,102 @@ angular.module('shwop.products', [])
     .then(function (promise) {
       $scope.data.products = promise.data.products;
       Products.setCurrentProduct($scope.data.products[0]);
+      // Insert dummy card at end of deck for Alert card - tells user that they are at end of stack
+      $scope.data.products.push({alertCard: 'alertCard'});
+
 
       // Only run this if we do not already have the bidder location information
       if(!$scope.bidderLat) {
         console.log("intializing bidder location")
         getProductLocation();
       }
+      if($scope.searchSubmitted) {
+        // Clear the form
+        $scope.product.category = null;
+        $scope.product.searchText = null;
+      }
+
       callback();
     })
     .catch(function (err) {
       if (err){
-        console.log('/api/products GET failed. Populating products with dummy data: ', err);
-        $scope.data.products = [{url: '../../photos/chessboard.jpg', price: 60}, 
-        {url: '../../photos/decoration.jpg', price: 100}, {url: '../../photos/drone.jpg', price: 300}, 
-        {url: '../../photos/plane.jpg', price: 35000}];
-        Products.setCurrentProduct($scope.data.products[0]);
+        console.log('/api/products GET failed.', err);
       }
     });
   };
 
   // Calls factory method to get all products matching tag
   $scope.submitSearch = function () {
-    var tag = $scope.data.tag;
-    Products.getProductsByTag(tag)
-      .then(function (promise) {
-        $scope.data.products = promise.data.products;
-        Products.setCurrentProduct($scope.data.products[0]);
-      });
+    $scope.searchSubmitted = true;
+
+    // Allows for optional arguments if user would like to re-submit previous search
+    var args = Array.prototype.slice.call(arguments);
+    if(args.length > 0) {
+      $scope.product.searchText = args[0];
+      $scope.product.category = args[1];
+    }
+
+
+    // If the user selects a search for all products
+    if(($scope.product.searchText === null || $scope.product.searchText === "")  && $scope.product.category === "All Products") {
+      $scope.getAllProducts();
+    } else {
+        $scope.lastCard = false;
+        $scope.searchSubmitted = true;
+
+        if($scope.product.searchText === "") {
+          $scope.product.searchText = null;
+        }
+
+        var tagsString = $scope.product.searchText + "+" + $scope.product.category;
+
+        Products.getProductsByTag(tagsString)
+          .then(function (promise) {
+
+            if(promise.data === '') {
+              alert("Sorry, no results matched your search. Please try again or keep shwoping!")
+              $rootScope.Ui.turnOff('searchModal');
+            } else if(promise.data.categoryOnly) { // If Category input returns results but Search Input DOES NOT return results
+
+              $scope.data.products = promise.data.products;
+              Products.setCurrentProduct($scope.data.products[0]);
+
+              // Insert dummy card at end of deck for Alert card - tells user that they are at end of stack
+              $scope.data.products.push({alertCard: 'alertCard'});
+              $rootScope.Ui.turnOff('searchModal');
+
+              // Stores previous search in case user re-submits previous search
+              previousSearchText = $scope.product.searchText;
+              previousProductCategory = $scope.product.category;
+
+              // Clear the form
+              $scope.product.category = null;
+              $scope.product.searchText = null;
+
+              alert("We were unable to find results matching \"" + previousSearchText + 
+                    "\". Showing results for \"" + previousProductCategory + "\". Happy shwopping!");
+
+            } else {
+              $scope.data.products = promise.data.products;
+              Products.setCurrentProduct($scope.data.products[0]);
+              // Insert dummy card at end of deck for Alert card - tells user that they are at end of stack
+              $scope.data.products.push({alertCard: 'alertCard'});
+              $rootScope.Ui.turnOff('searchModal');
+
+              // Stores previous search in case user re-submits previous search
+              previousSearchText = $scope.product.searchText;
+              previousProductCategory = $scope.product.category;
+
+              // Clear the form
+              $scope.product.category = null;
+              $scope.product.searchText = null;
+
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
   };
 
   var getBidderLocation = function (callback) {
@@ -115,9 +183,15 @@ angular.module('shwop.products', [])
     })
   };
 
+  $scope.refreshProductSet = function() {
+    $scope.lastCard = false;
+    $scope.submitSearch(previousSearchText, previousProductCategory);
+  };
 
 
-  $scope.getAllProducts();
+
+  $scope.getAllProducts(function() {console.log("intial current product ", Products.getCurrentProduct());});
+
 }])
 
 // Angular directive to control drag functionality.
@@ -132,6 +206,11 @@ angular.module('shwop.products', [])
         if (event.keyCode === 37) {
           if ($scope.data.products.length > 1){
             $scope.data.products.shift();
+
+            if($scope.data.products.length === 1) {
+              $scope.lastCard = true;
+            }
+
             Products.setCurrentProduct($scope.data.products[0]);
 
             // This section gets the location for the next product in the stack
@@ -150,27 +229,6 @@ angular.module('shwop.products', [])
              var distanceUnits = $translate.instant('distanceUnits');
              $scope.data.location = distanceDisplay + Math.round(distance) + " " + distanceUnits;
             })
-          } else {
-            $scope.data.products.shift();
-            
-            // Gets all products if at the bottom of the stack, 
-            // then gets the location for the product at the top of the refreshed stack
-            $scope.getAllProducts(function () {
-                var currentProduct = $scope.data.products[0];
-                var userId = currentProduct.UserId;
-
-              // get the location of the user associated to the product
-              Users.getUserLocation(userId)
-              .then(function (user) {
-                var productLat = user.data.userInfo.latitude;
-                var productLong = user.data.userInfo.longitude;
-
-                var distance = Products.getDistance($scope.bidderLat, $scope.bidderLong, productLat, productLong);
-                var distanceDisplay = $translate.instant('distanceDisplay');
-                var distanceUnits = $translate.instant('distanceUnits');
-                $scope.data.location = distanceDisplay + Math.round(distance) + " " + distanceUnits;
-              })
-            });
           }
         } else if (event.keyCode === 39) {
             $scope.showModal();
@@ -191,8 +249,12 @@ angular.module('shwop.products', [])
         this.activeItem = this.activeItem === this.itemCount - 1 ? 0 : this.activeItem + 1;
         
         if ($scope.data.products.length > 1){
-          console.log('popping first product');
           $scope.data.products.shift();
+
+          if($scope.data.products.length === 1) {
+              $scope.lastCard = true;
+          }
+
           Products.setCurrentProduct($scope.data.products[0]);
           console.log(Products.getCurrentProduct());
 
@@ -213,30 +275,7 @@ angular.module('shwop.products', [])
             var distanceUnits = $translate.instant('distanceUnits');
             $scope.data.location = distanceDisplay + Math.round(distance) + " " + distanceUnits;
           })
-
-
-        } else {
-          $scope.data.products.shift();
-
-          // Gets all products if at the bottom of the stack, 
-          // then gets the location for the product at the top of the refreshed stack
-          $scope.getAllProducts(function () {
-              var currentProduct = $scope.data.products[0];
-              var userId = currentProduct.UserId;
-
-            // get the location of the user associated to the product
-            Users.getUserLocation(userId)
-            .then(function (user) {
-              var productLat = user.data.userInfo.latitude;
-              var productLong = user.data.userInfo.longitude;
-
-              var distance = Products.getDistance($scope.bidderLat, $scope.bidderLong, productLat, productLong);
-              var distanceDisplay = $translate.instant('distanceDisplay');
-              var distanceUnits = $translate.instant('distanceUnits');
-              $scope.data.location = distanceDisplay + Math.round(distance) + " " + distanceUnits;
-            })
-          });
-        }
+        } 
       };
 
       this.bid = function(){
