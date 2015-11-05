@@ -253,7 +253,7 @@ angular.module('shwop.services', [])
     return $http({
       method: 'POST',
       url: '/api/users/update',
-      data: {token: token, updatedUser: updatedUser}
+      data: updatedUser
     });
   };
 

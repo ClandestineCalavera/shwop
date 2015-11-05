@@ -102,6 +102,7 @@ module.exports = {
   userInfo: function (req, res, next) {
     var token = req.headers['x-access-token'];
     var user = jwt.decode(token, 'secret');
+    console.log('the user is', user);
     db.User.findOne({
       where: { id: user.id }
     })
@@ -130,17 +131,18 @@ module.exports = {
   },
 
   updateUser: function (req, res, next) {
-    var user = jwt.decode(req.body.token, 'secret');
+    var token = req.headers['x-access-token'];
+    var user = jwt.decode(token, 'secret');
     db.User.update({ 
-      firstName: req.body.updatedUser.firstName,
-      lastName: req.body.updatedUser.lastName,
-      email: req.body.updatedUser.email,
-      phoneNumber: req.body.updatedUser.phoneNumber,
-      address1: req.body.updatedUser.address1,
-      address2: req.body.updatedUser.address2,
-      city: req.body.updatedUser.city,
-      state: req.body.updatedUser.state,
-      zip: req.body.updatedUser.zip
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      address1: req.body.address1,
+      address2: req.body.address2,
+      city: req.body.city,
+      state: req.body.state,
+      zip: req.body.zip
     }, {
       where: {
         id: user.id
@@ -150,7 +152,7 @@ module.exports = {
       res.send(200);
     })
     .then(function () {
-      helpers.addLongAndLat(req.body.updatedUser);
+      helpers.addLongAndLat(req.body);
     })
     .then(function (result) {
       console.log('Successfully added longitude and latitude');

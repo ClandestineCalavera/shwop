@@ -74,6 +74,13 @@ describe('the userController methods', function () {
         });
     });
 
+    it('should error when looking for user and token is not provided', function (done) {
+      request(app)
+        .get('/api/users/profile')
+        .expect(500)
+        .end(done);
+    });
+
   });
 
   describe('Sign in a user', function () {
@@ -82,10 +89,51 @@ describe('the userController methods', function () {
         .post('/api/users/signin')
         .send({email: testUser.email, password: testUser.password})
         .end(function (err, res) {
-          expect(res.body.toke).to.exist;
+          expect(res.body.token).to.exist;
           done();
         });
     });
+
+    it('should fail to sign in when wrong password is supplied', function (done) {
+      request(app)
+        .post('/api/users/signin')
+        .send({email: testUser.email, password: 'wrongpassword'})
+        .expect(400)
+        .end(done);
+    });
+
+  });
+
+  describe('Update a user', function () {
+
+    var updatedUser = {
+      firstName  : 'updater',
+      lastName   : 'updaterson',
+      email      : 'update@user.com',
+      phoneNumber: '0980980987',
+      address1: '123 45th st.',
+      address2: 'Apt 67',
+      city: 'San Francisco',
+      state: 'CA',
+      zip: 94112
+    };
+
+    it('should successfully update a user', function (done) {
+      request(app)
+        .post('/api/users/update')
+        .set('x-access-token', token)
+        .send(updatedUser)
+        .expect(200)
+        .end(done);
+    });
+
+    // it('should fail to sign in when wrong password is supplied', function (done) {
+    //   request(app)
+    //     .post('/api/users/signin')
+    //     .send({email: testUser.email, password: 'wrongpassword'})
+    //     .expect(400)
+    //     .end(done);
+    // });
 
   });
 });
