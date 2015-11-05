@@ -79,7 +79,7 @@
                placeholder='{{ "pricePlaceholder" | translate }}'
                required>
         <span class ='input-group-btn'>
-          <button class='btn btn-default tag-button' type='button' id='uploadPhotoButton' ng-click='$parent.addPhoto()'>{{ 'uploadPhotoButton' | translate }}</button>
+          <button class='btn btn-default tag-button' type='button' id='uploadPhotoButton' ng-click='addPhoto()'>{{ 'uploadPhotoButton' | translate }}</button>
         </span>
       </div>
       <div ng-hide='product.photoURL === ""' class='tag'>

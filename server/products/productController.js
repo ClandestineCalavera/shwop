@@ -113,34 +113,27 @@ module.exports = {
 
   // adds a new product to the database
   newProduct: function (req, res, next) {
+    var token = req.headers['x-access-token'];
+    var user = jwt.decode(token, 'secret');
+    db.User.findOne({where: {email: user.email}})
+    .then(function (foundUser) {
+      if (foundUser) {
+        var product = req.body.product;
+        var tags = req.body.tags;
 
-    var token = req.body.token;
-    if (!token) {
-      res.status(401).send('We could not locate the required token.');
-      // Keeping this error syntax for future reference. 
-      // next(new Error('No token'));
-    } else {
-      var user = jwt.decode(token, 'secret');
-      db.User.findOne({where: {email: user.email}})
-      .then(function (foundUser) {
-        if (foundUser) {
-          var product = req.body.product;
-          var tags = req.body.tags;
-
-          helpers.createProduct(foundUser, product, tags, function (error, result) {
-            if (error) {
-              next(error);
-            }
-            res.send(200);
-          });
-        } else {
-          res.status(401).send('Error creating new product in database: We could not locate the product in the database.');
-        }
-      })
-      .catch(function (error) {
-        next(error);
-      });
-    }
+        helpers.createProduct(foundUser, product, tags, function (error, result) {
+          if (error) {
+            next(error);
+          }
+          res.send(200);
+        });
+      } else {
+        res.status(401).send('Error creating new product in database: We could not locate the product in the database.');
+      }
+    })
+    .catch(function (error) {
+      next(error);
+    });
   },
 
 
