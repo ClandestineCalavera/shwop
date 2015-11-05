@@ -73,7 +73,6 @@ describe('the userController methods', function () {
         .set('x-access-token', token)
         .end(function (err, res) {
           if (err) throw err;
-          console.log('res is', res)
           expect(res.body.userInfo).to.exist;
           done();
         });
@@ -82,8 +81,7 @@ describe('the userController methods', function () {
     it('should error when looking for user and token is not provided', function (done) {
       request(app)
         .get('/api/users/profile')
-        .set('x-access-token', token)
-        .expect(500)
+        .expect(401)
         .end(done);
     });
 
