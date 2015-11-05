@@ -3,7 +3,7 @@ var util = require('../config/utils.js');
 var helpers = require('../db/helpers.js');
 var jwt  = require('jwt-simple');
 var Promise = require('bluebird');
-
+var _ = require('underscore');
 
 module.exports = {
 
@@ -21,34 +21,95 @@ module.exports = {
     });
   },
 
-  productsByTags: function (req, res, next) {
-    //query to find products by tags
+   productsByTags: function (req, res, next) {
+    // Splits the received tags into two array elements: Element 1 = Input Tag, Element 2 = Category Tag
     var tags = req.params.tags.split('+');
-    // Category tag will always be inserted at end of tags array
-    var categoryTag = tags.pop();
-    var categoryProducts;
-    console.log(categoryTag);
+    var inputTags = [];
+    // Saving these tags variables to alert user if we only found a category tag and not their 
+    // Input tags in the database as well
+    var categoryTag = tags[1];
+    var inputTag = tags[0];
+    var foundOnlyCategoryResults = false;
 
-    // Get all associated products by Category tag
-    db.Tag.findOne({where: {tagName: categoryTag}})
-    .then(function (tag) {
-      if(tag === null) {
-        res.status(400).send('We could not find a tag in the database.');
+    // Splits the Input Tag into separate words. This allows for search by each word entered into the search query. 
+    // E.g., "Search: Brown cow" -> ["Brown", "cow"]
+    if(tags[0] !== "null") {
+      var inputTags = tags[0].split(" ");
+    }
+
+    // Add the Category Tag to the array of tags to be searched/compared
+    if(tags[1] !== 'null' && tags[1] !== "All Products") {
+      inputTags.push(tags[1]);
+    }
+
+    // Search tags db by each Input Tag word in inputTags
+    var tagPromises = _.map(inputTags, function(inputTag) {
+      return db.Tag.findAll({where: {'tagName': inputTag}});
+    });
+
+    Promise.all(tagPromises)
+    .then(function (tags) {
+      // Flattens the returned array of arrays into one array of objects
+      tags = _.flatten(tags);
+      
+      if(tags.length === 0) {
+        res.status(200).send(null);
+      } 
+
+      // This works because if we ever find a tag that matches the Search Input 
+      // that tag will be a lower index than the categoryTag
+      if(tags[0].dataValues.tagName === categoryTag && inputTag !== 'null') {
+        console.log("TOGGLING found category results")
+        foundOnlyCategoryResults = true;
       }
-      return tag.getProducts();
-    })
-    .then(function (associatedProducts) {
-      if(associatedProducts === null) {
-        // Not sure if this is the correct error. Leaving in for future testing purposes. 
-        res.status(400).send('We could not find the associated tags in the database.');
-      }
-      categoryProducts = associatedProducts;
-      res.send({products: associatedProducts});
+
+
+      // Create an array of tagIds from the tags result
+      var tagIds = _.map(tags, function(tags) {
+        return tags.dataValues.id;
+      });
+
+      // Get all productIds from Product_Tags table that match tagId
+      var tagIdPromises = _.map(tagIds, function(tagId) {
+        return db.Product_Tag.findAll({where: {'TagId': tagId}});
+      });
+
+      Promise.all(tagIdPromises)
+      .then(function (productTags) {
+
+        // Flattens the returned array of arrays into one array of objects
+        productTags = _.flatten(productTags);
+
+        var productIdArray = helpers.maxProductId(productTags);   
+
+        var productPromises = _.map(productIdArray, function (productId) {
+          return db.Product.findAll({where: {id: productId}});
+        })
+
+        Promise.all(productPromises)
+        .then(function (products) {
+          products = _.flatten(products);
+          res.status(200).send({
+            products: products,
+            categoryOnly: foundOnlyCategoryResults
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+        
+      })
+      .catch(function (error) {
+        return next(error);
+      })
+
     })
     .catch(function (error) {
       return next(error);
-    });
+    })
   },
+
 
   // adds a new product to the database
   newProduct: function (req, res, next) {

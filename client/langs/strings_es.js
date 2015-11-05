@@ -8,6 +8,11 @@ var esES = {
   "sidebarMyBids": "Mis ofertas",
   "sidebarProfile": "Perfil",
 
+  // client>app>searchModal.html
+  "searchTitle": "Search",
+  "searchInput": "Search",
+  "searchButton": "Submit Search",
+
   // client>app>auth>signin.html
   "signupPrompt": "¿No tienes cuenta? ¡Regístrate!",
   "emailPrompt": "Email",
@@ -119,6 +124,7 @@ var esES = {
   "closeButton": "Cerrar",
 
   //client>app>services>services.js
+  "allProducts": "All Products",
   "antiques": "Antigüedades",
   "appliances": "Electrodomésticos",
   "artsCrafts": "Artes, artesanías y costura",
