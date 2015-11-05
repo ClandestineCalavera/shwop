@@ -28,17 +28,18 @@ describe('the userController methods', function () {
   var token;
   var testUser;
 
+  var generateUserEmail = function () {
+    var chars = '1234567890abcdefghijklmnopqrstuvwxyz';
+    var email = '';
+    for (var i = 0; i < 10; i++) {
+      email += chars[Math.floor(Math.random() * chars.length)];
+    }
+    email+='@user.com';
+    return email;
+  };
+
   describe('Sign up a user', function () {
 
-    var generateUserEmail = function () {
-      var chars = '1234567890abcdefghijklmnopqrstuvwxyz';
-      var email = '';
-      for (var i = 0; i < 10; i++) {
-        email += chars[Math.floor(Math.random() * chars.length)];
-      }
-      email+='@user.com';
-      return email;
-    };
 
     var testEmail = generateUserEmail();
 
@@ -109,7 +110,7 @@ describe('the userController methods', function () {
     var updatedUser = {
       firstName  : 'updater',
       lastName   : 'updaterson',
-      email      : 'update@user.com',
+      email      : testUser.email,
       phoneNumber: '0980980987',
       address1: '123 45th st.',
       address2: 'Apt 67',
