@@ -8,6 +8,11 @@ var enUS = {
   "sidebarMyBids": "My Bids",
   "sidebarProfile": "Profile",
 
+  // client>app>searchModal.html
+  "searchTitle": "Search",
+  "searchInput": "Search",
+  "searchButton": "Submit Search",
+
   // client>app>auth>signin.html
   "signupPrompt": "No Account? Sign Up!",
   "emailPrompt": "Email",
@@ -121,6 +126,7 @@ var enUS = {
   "closeButton": "Close",
 
   //client>app>services>services.js
+  "allProducts": "All Products",
   "antiques": "Antiques",
   "appliances": "Appliances",
   "artsCrafts": "Arts, Crafts & Sewing",

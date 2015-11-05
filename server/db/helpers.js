@@ -2,6 +2,7 @@
 var db = require('../../server/db/db_config.js');
 var Promise = require('bluebird');
 var request = require('request');
+var _ = require('underscore');
 
 // create a  user
 var createUser = function (user) {
@@ -152,4 +153,40 @@ var storeBid = function (bidAmount, product, bidder, callback) {
 
 exports.createProduct = createProduct;
 exports.storeBid = storeBid;
+
+var maxProductId = function (array) {
+  // library object
+  var library = {};
+  // output array
+  var outArray = [];
+  // max count
+  var maxCount = 1;
+  _.each(array, function(object) {
+    // if doesn't exist in library, insert into library
+    if(!library.hasOwnProperty(object.dataValues.ProductId)) {
+      library[object.dataValues.ProductId] = 1;
+      if(maxCount === 1) {
+        outArray.push(object.dataValues.ProductId);
+      }
+    } else { // if it does exist in library, then increment the count
+      library[object.dataValues.ProductId]++;
+      // If that count is greater than the max
+      if(library[object.dataValues.ProductId] > maxCount) {
+        // clear the outArray
+        outArray = [];
+        // increment max count, insert into output array
+        maxCount++;
+        outArray.push(object.dataValues.ProductId);
+      } else if(library[object.dataValues.ProductId] === maxCount) {
+        outArray.push(object.dataValues.ProductId);
+      }
+    }
+    console.log("Library", library);
+    console.log("outArray", outArray);
+  });
+
+  return outArray;
+};
+
+exports.maxProductId = maxProductId;
 

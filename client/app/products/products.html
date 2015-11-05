@@ -1,14 +1,18 @@
 <!-- <div class='scrollable-header'> -->
   <nav class='navbar navbar-app navbar-relative-top'>
     <strong class="navbar-brand-center navbar-brand">Shwop</strong>
+
     <div class="btn-group pull-left">
       <div ui-toggle="uiSidebarLeft" class="btn sidebar-toggle">
         <i class="fa fa-bars"></i> {{ 'menuTitle' | translate }}
       </div>
     </div>
+
     <div class='btn-group pull-right collapsible'>
+      <i  ng-click="showSearchModal()" class="btn btn-navbar fa fa-search fa-2x"></i>
       <a ng-click='signout()' class='btn btn-navbar'>{{ 'logoutNav' | translate }}</a>
     </div>
+
   </nav>
 <!-- </div> -->
 
@@ -16,7 +20,8 @@
 <div class="carousel" style='background-image: url(http://pre14.deviantart.net/f563/th/pre/f/2012/235/f/7/marrakesh_marketplace_by_wolfewolf-d5c69vj.jpg); background-size: cover'>
   <div class="carousel-inner">
     <div class="carousel-item" ng-repeat= 'product in data.products.slice(0,3) | filter:search'>
-      
+
+      <div ng-if="!lastCard">
         <div class='product-name-div'><strong class='product-name '>{{ product.name }}</strong></div>
         <img ng-src='{{ product.photoURL }}' class='product-image'></img>
           <div class='product-card-info'>
@@ -24,7 +29,15 @@
           <div >
             <i class="fa fa-map-marker product-location"></i><span class='product-location'> {{ data.location }}</span>
           </div>
-        </div>
+      </div>
+    </div>
+
+      <div ng-if="lastCard">
+        <div><span>O,snap! Looks like you've swiped through all of the items. Click below or enter a new search to continue shwopping! </span></div>
+      <span ng-if="searchSubmitted">
+        <button class="btn btn-primary" ng-click="refreshProductSet()">See Previous Search Items</button>
+      </span>
+        <button class="btn btn-primary" ng-click="getAllProducts()">See All Items</button>
       </div>
     </div>
   </div>
@@ -32,6 +45,7 @@
 
 <div ui-content-for="modals">
   <div ng-include="'bidModal.html'"></div>
+  <div ng-include="'searchModal.html'"></div>
 </div>
 
 <!-- style='background-image: url({{ product.photoURL }}); background-position: center; background-size: contain; background-repeat: no-repeat' -->

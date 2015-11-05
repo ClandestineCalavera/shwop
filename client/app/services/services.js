@@ -159,6 +159,7 @@ angular.module('shwop.services', [])
 
 
   var categories = [
+    {id: '0', name: 'All Products', translation: $translate.instant('allProducts')},
     {id: '1', name: 'Antiques', translation: $translate.instant('antiques')},
     {id: '2', name: 'Appliances', translation: $translate.instant('appliances')},
     {id: '3', name: 'Arts, Crafts & Sewing', translation: $translate.instant('artsCrafts')},
