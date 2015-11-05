@@ -76,9 +76,7 @@ var addLongAndLat = function (user) {
   if (user.country)  { inputs.push(user.country)       ;}
 
   for (var i = 0; i < inputs.length; i++) {
-    console.log('inputs[i].split(\' \') is', inputs[i].split);
     address.push(inputs[i].split(' ').join('+'));
-    console.log('address in the loop is ', address);
   }
 
   address = address.join(',+');
