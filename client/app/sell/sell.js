@@ -56,14 +56,13 @@ angular.module('shwop.sell', [])
     // This may be utilized later, once we figure out search
     $scope.product.tags.push($scope.product.category);
      var request = {
-      "token": $window.localStorage.getItem('com.shwop'),
-      "product": {
-                  "name": $scope.product.name,
-                  "photoURL": $scope.product.photoURL,
-                  "price": $scope.product.price
+      product: {
+        name: $scope.product.name,
+        photoURL: $scope.product.photoURL,
+        price: $scope.product.price
       },
-      "tags": $scope.product.tags
-    }
+      tags: $scope.product.tags
+    };
 
 
     Products.addProduct(request)
@@ -71,7 +70,7 @@ angular.module('shwop.sell', [])
       $location.path('/mystore');
     })
     .catch(function (error) {
-      console.log("Error in creating a bid:   ", error);
+      console.log('Error in creating a bid:   ', error);
     });
   };
 
