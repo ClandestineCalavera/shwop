@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Shwop by ClandestineCalavera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Shwop</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/ClandestineCalavera/shwop" class="btn">View on GitHub</a>
+      <a href="https://github.com/ClandestineCalavera/shwop/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/ClandestineCalavera/shwop/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="shwop" class="anchor" href="#shwop" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shwop</h1>
+
+<p>Peer-to-peer mobile optimized marketplace with intuitive swipe-based user experience, geolocation tracking and text notifications.</p>
+
+<h2>
+<a id="team" class="anchor" href="#team" aria-hidden="true"><span class="octicon octicon-link"></span></a>Team</h2>
+
+<ul>
+<li>Product Owner: John Wareing <a href="https://linkedin.com/in/johnwareing">LinkedIn</a>, <a href="https://github.com/jwareing">GitHub</a>
+</li>
+<li>Scrum Master: Corey Roy <a href="https://linkedin.com/in/coreyroy">LinkedIn</a>, <a href="https://github.com/coreys">GitHub</a>
+</li>
+<li>
+<p>Development Team Members: 
+  Tommy Sander <a href="https://linkedin.com/in/thomasksander">LinkedIn</a>, <a href="https://github.com/tksander">GitHub</a> 
+  Brett Sanders <a href="https://linkedin.com/in/brettwsanders">LinkedIn</a>, <a href="https://github.com/brettwsanders">GitHub</a></p>
+
+<ul>
+<li>What the project does</li>
+<li>Features</li>
+<li>Developer: how to open up and start working on it</li>
+<li>Step to get things working</li>
+<li>Outline of the map - controllers, views, ect.</li>
+<li>Delineated section</li>
+<li>Screen shots of the product</li>
+<li>Links to the product</li>
+<li>how to run a test</li>
+<li>Contributors: link to profiles</li>
+<li>Look at the code: (Put this at the top of the Readme)</li>
+<li>Highlight which parts of the code they would like to look at first
+
+<ul>
+<li>Front end - typical controller</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table of Contents</h2>
+
+<ol>
+<li><a href="#Usage">Usage</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li>
+<a href="#development">Development</a>
+
+<ol>
+<li><a href="#installing-dependencies">Installing Dependencies</a></li>
+<li><a href="#tasks">Tasks</a></li>
+</ol>
+</li>
+<li><a href="#team">Team</a></li>
+<li><a href="#contributing">Contributing</a></li>
+</ol>
+
+<h2>
+<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screenshots</h2>
+
+<p><img src="/screenshots/mobileapp-screenshot.png?raw=true" alt="Shwop Mobile Browser App" title="Mobile App">
+<img src="/screenshots/webapp-screenshot.png?raw=true" alt="Shwop Web Browser App" title="Web App"></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h2>
+<a id="code-highlight" class="anchor" href="#code-highlight" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Highlight</h2>
+
+<p>Client-side
+<a href="/client/app/products/products.html">Products View</a>
+<a href="/client/app/products/products.js">Products Controller</a></p>
+
+<p>Server-side
+<a href="/server/products/productsController.js">Products Controller</a></p>
+
+<p>Database </p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>Node </li>
+<li>NPM</li>
+<li>Bower</li>
+<li>mySQL</li>
+</ul>
+
+<h2>
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<p>The following commands are written for OS X.  </p>
+
+<h3>
+<a id="installing-dependencies" class="anchor" href="#installing-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing Dependencies</h3>
+
+<p>Run all of the following commands from the root directory to setup your dependencies.</p>
+
+<div class="highlight highlight-source-shell"><pre>$ npm install
+$ bower install</pre></div>
+
+<h3>
+<a id="creating-a-local-mysql-database" class="anchor" href="#creating-a-local-mysql-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating A Local mySQL Database</h3>
+
+<p>Create the mySQL database:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ grunt create
+
+Running <span class="pl-s"><span class="pl-pds">"</span>create<span class="pl-pds">"</span></span> task
+
+Running <span class="pl-s"><span class="pl-pds">"</span>shell:createdb<span class="pl-pds">"</span></span> (shell) task
+Lets go shwoping<span class="pl-k">!</span>
+
+Done, without errors.</pre></div>
+
+<h4>
+<a id="accessing-the-database" class="anchor" href="#accessing-the-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>Accessing The Database</h4>
+
+<p>Check if mySQL is installed on your machine by executing:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ which mySQL</pre></div>
+
+<p>If mySQL is not installed, run:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ brew install mySQL</pre></div>
+
+<p>Start up your mySQL server</p>
+
+<div class="highlight highlight-source-shell"><pre>$ mySQL.server start</pre></div>
+
+<p>Start the mySQL shell, login as the root user, and access the database, by executing the below command.  </p>
+
+<div class="highlight highlight-source-shell"><pre>$ mySQL -u root shwopDB</pre></div>
+
+<p>Useful mySQL shell commands:</p>
+
+<div class="highlight highlight-source-shell"><pre>show tables<span class="pl-k">;</span>
+describe [table]<span class="pl-k">;</span></pre></div>
+
+<h3>
+<a id="starting-node-server" class="anchor" href="#starting-node-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Starting Node Server</h3>
+
+<p>Open a new terminal window and run the following command to start a new Node server on Port 8080. 
+Running this command will also execute the Sequelize commands to </p>
+
+<div class="highlight highlight-source-shell"><pre>$ grunt start</pre></div>
+
+<h4>
+<a id="create-sass-file" class="anchor" href="#create-sass-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create Sass file</h4>
+
+<p>grunt runSass</p>
+
+<h3>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadmap</h3>
+
+<p>View the project roadmap <a href="https://github.com/ClandestineCalavera/shwop/issues">here</a></p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for contribution guidelines.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/ClandestineCalavera/shwop">Shwop</a> is maintained by <a href="https://github.com/ClandestineCalavera">ClandestineCalavera</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
