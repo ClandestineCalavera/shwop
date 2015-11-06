@@ -41,9 +41,9 @@ describe('Users Service', function() {
     backend.flush();
   });
 
-  it('Should post correct data to /api/users/profile when getUserInfo is called', function() {
-    backend.expectPOST('/api/users/profile', {token: 'superSecretToken111'}).respond(200,'');
-    Users.getUserInfo('superSecretToken111');
+  it('Should make a GET to /api/users/profile when getUserInfo is called', function() {
+    backend.expectGET('/api/users/profile').respond(200,'');
+    Users.getUserInfo();
     backend.flush();
   });
 
