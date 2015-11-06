@@ -72,13 +72,10 @@ div .padded-all {
 
 .product-name {
   text-align: center;
-  color: #007AFF;
-  font-size: 7vh; }
+  color: #007AFF; }
 
 .product-name-div {
-  max-height: 13vh;
-  overflow: hidden;
-  white-space: nowrap; }
+  padding: 4px; }
 
 .product-location {
   font-size: 4vh; }

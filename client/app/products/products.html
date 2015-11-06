@@ -1,4 +1,4 @@
-<!-- <div class='scrollable-header'> -->
+<div class='scrollable'>
   <nav class='navbar navbar-app navbar-relative-top'>
     <strong class="navbar-brand-center navbar-brand">Shwop</strong>
 
@@ -22,7 +22,7 @@
     <div class="carousel-item" ng-repeat= 'product in data.products.slice(0,3) | filter:search'>
 
       <div ng-if="!lastCard">
-        <div class='product-name-div'><strong class='product-name '>{{ product.name }}</strong></div>
+        <div class='product-name-div'><strong data-fittext data-fittext-max='40' class='product-name '>{{ product.name }}</strong></div>
         <img ng-src='{{ product.photoURL }}' class='product-image'></img>
           <div class='product-card-info'>
           <div class='product-price'><strong>${{ product.price }}</strong></div>
@@ -46,6 +46,8 @@
 <div ui-content-for="modals">
   <div ng-include="'bidModal.html'"></div>
   <div ng-include="'searchModal.html'"></div>
+</div>
+
 </div>
 
 <!-- style='background-image: url({{ product.photoURL }}); background-position: center; background-size: contain; background-repeat: no-repeat' -->
