@@ -12,9 +12,10 @@
   "dependencies": {
     "angular": "~1.4.7",
     "angular-route": "~1.4.7",
-    "mobile-angular-ui": "~1.2.0-rc.3",
     "angular-translate": "~2.8.1",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "mobile-angular-ui": "~1.2.0-rc.3",
+    "ngFitText": "~3.3.3"
   },
   "resolutions": {
     "angular": "~1.4.7",

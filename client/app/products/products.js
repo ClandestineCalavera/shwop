@@ -85,7 +85,7 @@ angular.module('shwop.products', [])
         Products.getProductsByTag(tagsString)
           .then(function (promise) {
 
-            if(promise.data === '') {
+            if(promise.data === '' || promise.data.products.length === 0) {
               $translate('noSearchResultsAlert1')
               .then(function (translatedValue) {
                 alert(translatedValue);

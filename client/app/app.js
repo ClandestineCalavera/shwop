@@ -10,7 +10,8 @@ angular.module('shwop', [
   'mobile-angular-ui',
   'mobile-angular-ui.gestures',
   'pascalprecht.translate',
-  'ngRoute'
+  'ngRoute',
+  'ngFitText'
 ])
 .controller('SidebarController', ['$scope', '$translate', function ($scope, $translate) {
   $scope.toggleLanguage = function (lang) {
