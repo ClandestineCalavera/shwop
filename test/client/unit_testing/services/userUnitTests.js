@@ -54,7 +54,7 @@ describe('Users Service', function() {
   });
 
   it('Should post correct data to /api/users/update when updateUser is called', function() {
-    backend.expectPOST('/api/users/update', {token: 'superSecretToken111', updatedUser: exampleUser}).respond(200,'');
+    backend.expectPOST('/api/users/update', exampleUser).respond(200,'');
     Users.updateUser('superSecretToken111', exampleUser);
     backend.flush();
   });
