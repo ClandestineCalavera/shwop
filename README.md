@@ -69,7 +69,7 @@ Code-base Test
 The following commands are written for OS X.  
 
 ### Installing Dependencies
-Run all of the following commands from the root directory to setup your dependencies.
+Run all of the following commands from the root directory to setup your dependencies:
 
 ```sh
 $ npm install
